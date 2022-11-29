@@ -16,9 +16,11 @@ class Cue extends JPanel {
     }
 
     public void hitBall(CueBall ball) {
-        ball.vx = Math.cos(theta);
-        ball.vy = Math.sin(theta);
-        ball.isMoving = true;
+        if (!ball.isMoving) {
+            ball.vx = Math.cos(theta);
+            ball.vy = Math.sin(theta);
+            ball.isMoving = true;
+        }
     }
 
     public void paintComponent(Graphics g, CueBall cb, int mx, int my) {
