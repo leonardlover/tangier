@@ -8,8 +8,8 @@ class CueBall extends Ball {
 
     public CueBall() {
         super();
-        x = 300;
-        y = 300;
+        x = 500;
+        y = 500;
     }
 
     public void paintComponent(Graphics g) {
