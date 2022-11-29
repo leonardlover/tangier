@@ -19,18 +19,18 @@ class CueBall extends Ball {
     }
 
     public void move() {
-        double dx = 5 * vx;
-        double dy = 5 * vy;
+        double dx = 10 * vx;
+        double dy = 10 * vy;
 
         if (x - dx >= 100 && x - dx <= 870 && isMoving) {
-            x -= 5 * vx;
+            x -= dx;
         }
         else {
             isMoving = false;
         }
 
         if (y - dy >= 100 && y - dy <= 670 && isMoving) {
-            y -= 5 * vy;
+            y -= dy;
         }
         else {
             isMoving = false;
