@@ -5,7 +5,6 @@ import javax.swing.JPanel;
 
 class Table extends JPanel {
     public Table() {
-    }
         super();
     }
 
