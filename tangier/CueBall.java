@@ -42,5 +42,6 @@ class CueBall extends Ball {
         g.fillOval(x, y, 30, 30);
         g.setColor(Color.black);
         g.drawOval(x, y, 30, 30);
+        
     }
 }

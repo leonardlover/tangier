@@ -4,7 +4,6 @@ import javax.swing.JPanel;
 import java.util.Random;
 
 class SolidBall extends Ball {
-    public int number;
     public int x;
     public int y;
     public double vx;
@@ -12,8 +11,9 @@ class SolidBall extends Ball {
     public Color color;
     public Random rand;
     public boolean isMoving;
+    public String number;
 
-    public SolidBall(Color color, int number) {
+    public SolidBall(Color color, String number) {
         super();
         rand = new Random();
         this.color = color;
@@ -29,6 +29,7 @@ class SolidBall extends Ball {
         g.setColor(color);
         g.fillOval(x,y,30,30);
         g.setColor(Color.black);
-        g.drawOval(x,y,30,30);      
+        g.drawOval(x,y,30,30);   
+        g.drawString(number,x+12,y+20);   
     }
 }

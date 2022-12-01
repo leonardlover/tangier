@@ -4,11 +4,13 @@ import java.awt.Graphics;
 import java.awt.event.*;
 import javax.swing.JPanel;
 import java.util.ArrayList;
+import java.util.Random;
 
 import java.awt.*;
 import javax.swing.*;
 
 class Canvas extends JPanel implements MouseMotionListener, MouseListener, ActionListener {
+    private Random rand;
     private Table table;
     private CueBall cueball;
     private ArrayList<SolidBall> solidBall;
@@ -27,21 +29,21 @@ class Canvas extends JPanel implements MouseMotionListener, MouseListener, Actio
         this.cueball = new CueBall();
         this.player = new Player();
         
-        this.yellowSolid = new SolidBall(Color.yellow, 1);
-        this.blueSolid = new SolidBall(Color.blue, 2);
-        this.redSolid = new SolidBall(Color.red, 3);
-        this.purpleSolid = new SolidBall(new Color(0x9F2B68), 4);
-        this.orangeSolid = new SolidBall(Color.orange,5);
-        this.greenSolid = new SolidBall(Color.green, 6);
-        this.brownSolid = new SolidBall(new Color(0x4B371C),7);
+        this.yellowSolid = new SolidBall(Color.yellow, "1");
+        this.blueSolid = new SolidBall(Color.blue, "2");
+        this.redSolid = new SolidBall(Color.red, "3");
+        this.purpleSolid = new SolidBall(new Color(0x9F2B68), "4");
+        this.orangeSolid = new SolidBall(Color.orange,"5");
+        this.greenSolid = new SolidBall(Color.green, "6");
+        this.brownSolid = new SolidBall(new Color(0x4B371C),"7");
 
-        this.yellowStriped = new StripedBall(Color.yellow, 9);
-        this.blueStriped = new StripedBall(Color.blue, 10);
-        this.redStriped = new StripedBall(Color.red, 11);
-        this.purpleStriped = new StripedBall(new Color(0x9F2B68), 12);
-        this.orangeStriped = new StripedBall(Color.orange, 13);
-        this.greenStriped = new StripedBall(Color.green, 14);
-        this.brownStriped = new StripedBall(new Color(0x4B371C), 15);
+        this.yellowStriped = new StripedBall(Color.yellow, "9");
+        this.blueStriped = new StripedBall(Color.blue, "10");
+        this.redStriped = new StripedBall(Color.red, "11");
+        this.purpleStriped = new StripedBall(new Color(0x9F2B68), "12");
+        this.orangeStriped = new StripedBall(Color.orange, "13");
+        this.greenStriped = new StripedBall(Color.green, "14");
+        this.brownStriped = new StripedBall(new Color(0x4B371C), "15");
 
         this.solidBall = new ArrayList<SolidBall>();
         this.solidBall.add(yellowSolid); this.solidBall.add(blueSolid); this.solidBall.add(redSolid); this.solidBall.add(purpleSolid); this.solidBall.add(orangeSolid); this.solidBall.add(greenSolid); this.solidBall.add(brownSolid);
