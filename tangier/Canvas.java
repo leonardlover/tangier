@@ -23,6 +23,7 @@ class Canvas extends JPanel implements MouseMotionListener, MouseListener, Actio
 
     public Canvas() {
         super();
+        rand = new Random();
         this.addMouseMotionListener(this);
         this.addMouseListener(this);
         this.table = new Table();
@@ -92,6 +93,17 @@ class Canvas extends JPanel implements MouseMotionListener, MouseListener, Actio
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
         table.paintComponent(g);
+        for(int i = 0; i < 7; i++) {
+            for(int j = 0; j < 7; j++) {
+                if((this.stripedBall.get(i).x > this.stripedBall.get(j).x && stripedBall.get(i).x < stripedBall.get(j).x+30) ||  (this.stripedBall.get(i).x > this.solidBall.get(j).x && stripedBall.get(i).x < solidBall.get(j).x+30)) {
+                    this.stripedBall.get(i).setX(rand.nextInt(700)+100);
+                }
+                
+                if((stripedBall.get(i).y > stripedBall.get(j).y && stripedBall.get(i).y < stripedBall.get(j).y+30) || (stripedBall.get(i).y > solidBall.get(j).y&& stripedBall.get(i).y < solidBall.get(j).y+30)) {     
+                    this.stripedBall.get(i).setY(rand.nextInt(500)+100);
+                }
+            }
+        }
         for(int i = 0; i < 7; i++) {
             this.solidBall.get(i).paintComponent(g);
         }
