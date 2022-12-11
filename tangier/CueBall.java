@@ -3,19 +3,8 @@ import java.awt.Color;
 import java.awt.Graphics;
 
 class CueBall extends Ball {
-    public int x;
-    public int y;
-    public double vx;
-    public double vy;
-    public Boolean isMoving;
-
     public CueBall() {
-        super();
-        x = 500;
-        y = 500;
-        vx = 0;
-        vy = 0;
-        isMoving = false;
+        super(Color.white, "", 500, 500);
     }
 
     public void move() {

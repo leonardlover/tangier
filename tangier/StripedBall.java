@@ -4,25 +4,9 @@ import javax.swing.JPanel;
 import java.util.Random;
 
 class StripedBall extends Ball {
-    public int x;
-    public int y;
-    public double vx;
-    public double vy;
-    public Color color;
-    public Random rand;
-    public boolean isMoving;
-    public String number;
 
     public StripedBall(Color color, String number) {
-        super();
-        rand = new Random();
-        this.color = color;
-        this.number = number;
-        this.x = rand.nextInt(700)+100;
-        this.y = rand.nextInt(500)+100;
-        vx = 0;
-        vy = 0;
-        isMoving = false;
+        super(color, number, 0, 0);
     }
 
     public void setX(int x) {
@@ -37,7 +21,9 @@ class StripedBall extends Ball {
         g.setColor(Color.white);
         g.fillOval(x,y,30,30);
         g.setColor(color);
-        g.fillRect(x,y+10,30,12);
+        g.fillRect(x+1,y+6,29,18);
+        g.setColor(Color.white);
+        g.fillOval(x+8,y+8,14,14);
         g.setColor(Color.black);
         g.drawOval(x,y,30,30);
         g.drawString(number,x+8,y+20);
