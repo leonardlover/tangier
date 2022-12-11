@@ -3,7 +3,9 @@ import java.awt.BorderLayout;
 import javax.swing.JFrame;
 
 class Window extends JFrame {
-    public Window() {
+    private static Window instance;
+
+    private Window() {
         super();
         this.setLayout(new BorderLayout());
         this.setTitle("Tangier");
@@ -13,5 +15,14 @@ class Window extends JFrame {
         this.setLocationRelativeTo(null);
         this.setResizable(false);
         this.setVisible(true);
+    }
+
+    public static Window getInstance() {
+        if (instance == null) {
+            return new Window();
+        }
+        else {
+            return instance;
+        }
     }
 }
