@@ -21,8 +21,6 @@ class Canvas extends JPanel implements MouseMotionListener, MouseListener, Actio
     private ArrayList<StripedBall> stripedBall;
     private Color[] color;
     private Player player;
-    //private SolidBall redSolid, orangeSolid, yellowSolid, greenSolid, blueSolid, purpleSolid, brownSolid;
-    //private StripedBall redStriped, orangeStriped, yellowStriped, greenStriped, blueStriped, purpleStriped, brownStriped;
     private int mx;
     private int my;
 
@@ -41,11 +39,35 @@ class Canvas extends JPanel implements MouseMotionListener, MouseListener, Actio
 
         for(int i = 0; i < 7; i++) {
             this.solidBall.add(new SolidBall(color[i], String.valueOf(i+1)));
+            this.solidBall.get(i).setX(rand.nextInt(770)+100);
+            this.solidBall.get(i).setY(rand.nextInt(570)+100);
+            
+            this.stripedBall.add(new StripedBall(color[i], String.valueOf(i+9)));
+            this.stripedBall.get(i).setX(rand.nextInt(770)+100);
+            this.stripedBall.get(i).setY(rand.nextInt(570)+100);
+
         }
+        /*
         for(int i = 0; i < 7; i++) {
             this.stripedBall.add(new StripedBall(color[i], String.valueOf(i+9)));
         }
+        for(int i = 0; i < 7; i++) {
+            for(int j = 0; j < 7; j++) {
+                //if((this.solidBall.get(i).x > this.solidBall.get(j).x && this.solidBall.get(i).x < this.solidBall.get(j).x+30)) {
+                    this.solidBall.get(i).setX(rand.nextInt(770)+100);
+                //}
+                //if((this.solidBall.get(i).y > this.solidBall.get(j).y && this.solidBall.get(i).y < this.solidBall.get(j).y+30)) {     
+                    this.solidBall.get(i).setY(rand.nextInt(570)+100);
+                //}
 
+                //if((this.stripedBall.get(i).x > this.stripedBall.get(j).x && this.stripedBall.get(i).x < this.stripedBall.get(j).x+30) ||  (this.stripedBall.get(i).x > this.solidBall.get(j).x && this.stripedBall.get(i).x < this.solidBall.get(j).x+30)) {
+                    this.stripedBall.get(i).setX(rand.nextInt(770)+100);
+                //}
+                //if((stripedBall.get(i).y > stripedBall.get(j).y && this.stripedBall.get(i).y < this.stripedBall.get(j).y+30) || (this.stripedBall.get(i).y > this.solidBall.get(j).y && this.stripedBall.get(i).y < this.solidBall.get(j).y+30)) {     
+                    this.stripedBall.get(i).setY(rand.nextInt(570)+100);
+                //}
+            }
+        }*/
         mx = 0;
         my = 0;
 
@@ -89,23 +111,7 @@ class Canvas extends JPanel implements MouseMotionListener, MouseListener, Actio
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
         table.paintComponent(g);
-        for(int i = 0; i < 7; i++) {
-            for(int j = 0; j < 7; j++) {
-                if((this.solidBall.get(i).x > this.solidBall.get(j).x && this.solidBall.get(i).x < this.solidBall.get(j).x+30)) {
-                    this.solidBall.get(i).setX(rand.nextInt(700)+100);
-                }
-                if((this.solidBall.get(i).y > this.solidBall.get(j).y && this.solidBall.get(i).y < this.solidBall.get(j).y+30)) {     
-                    this.solidBall.get(i).setY(rand.nextInt(500)+100);
-                }
-
-                if((this.stripedBall.get(i).x > this.stripedBall.get(j).x && this.stripedBall.get(i).x < this.stripedBall.get(j).x+30) ||  (this.stripedBall.get(i).x > this.solidBall.get(j).x && this.stripedBall.get(i).x < this.solidBall.get(j).x+30)) {
-                    this.stripedBall.get(i).setX(rand.nextInt(700)+100);
-                }
-                if((stripedBall.get(i).y > stripedBall.get(j).y && this.stripedBall.get(i).y < this.stripedBall.get(j).y+30) || (this.stripedBall.get(i).y > this.solidBall.get(j).y && this.stripedBall.get(i).y < this.solidBall.get(j).y+30)) {     
-                    this.stripedBall.get(i).setY(rand.nextInt(500)+100);
-                }
-            }
-        }
+        
 
         for(int i = 0; i < 7; i++) {
             this.solidBall.get(i).paintComponent(g);
