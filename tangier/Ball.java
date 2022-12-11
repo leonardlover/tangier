@@ -35,6 +35,9 @@ class Ball extends JPanel {
         }
         else {
             isMoving = false;
+            double k = vx;
+            vx = -vy;
+            vy = k;
         }
 
         if (y - dy >= 100 && y - dy <= 670) {
@@ -42,6 +45,9 @@ class Ball extends JPanel {
         }
         else {
             isMoving = false;
+            double k = vx;
+            vx = -vy;
+            vy = k;
         }
 
         int xc = x + 15;
