@@ -3,6 +3,7 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
@@ -24,21 +25,24 @@ class Canvas extends JPanel implements MouseMotionListener, MouseListener, Actio
     private Player player;
     private Menu menu;
     private Options options;
+    private Pause pause;
     
     private int mx;
     private int my;
     public static enum STATE {
         MENU,
         OPTIONS,
-        GAME
+        GAME,
+        PAUSE
     };
-    public static STATE State = STATE.MENU;
+    public static STATE State;
 
     public Canvas() {
         super();
         rand = new Random();
         this.addMouseMotionListener(this);
         this.addMouseListener(this);
+
         this.table = new Table();
         this.cueball = new CueBall();
         this.player = new Player();
@@ -60,8 +64,11 @@ class Canvas extends JPanel implements MouseMotionListener, MouseListener, Actio
 
         this.setLayout(null);
         this.setBackground(Color.white);
+        
+        State = STATE.MENU;
         menu = new Menu();
         options = new Options();
+        pause = new Pause();
 
         Timer t = new Timer(16, this);
         t.start();
@@ -97,7 +104,6 @@ class Canvas extends JPanel implements MouseMotionListener, MouseListener, Actio
             if(mx >= 430 && mx <= 580) {
                 if(my >= 350 && my <= 400)  {
                     State = Canvas.STATE.OPTIONS;
-                    System.out.println("OPTIONS");
                 }
             }
             // Quit Button
@@ -106,20 +112,24 @@ class Canvas extends JPanel implements MouseMotionListener, MouseListener, Actio
                     System.exit(1);
                 }
             }  
-        }
-        else if(State == STATE.OPTIONS) {
-        /*
-        helpButton = new Rectangle(100, 400, 200, 50);
-        musicButton = new Rectangle(100, 300, 200, 50);
-        soundButton = new Rectangle(350, 300, 200, 50);
-        modeButton = new Rectangle(350, 400, 200, 50);
-        doneButton = new Rectangle(100, 550, 500, 50); 
-        */
+        } else if(State == STATE.OPTIONS) {
             // Help Button
             if(mx >= 100 && mx <= 300) {
                 if(my >= 400 && my <= 450) {
                     System.out.println("HELP");
                     // Abrir ventana explicando el juego
+                }
+            }
+            // Music button
+            if(mx >= 100 && mx <= 300) {
+                if(my >= 300 && my <= 350)  {
+                    System.out.println("MUSIC");
+                }
+            }
+            // Sound Button
+            if(mx >= 350 && mx <= 550) {
+                if(my >= 300 && my <= 350) {
+                    System.out.println("SOUND");
                 }
             }
             // Mode button
@@ -132,10 +142,36 @@ class Canvas extends JPanel implements MouseMotionListener, MouseListener, Actio
             // Done Button
             if(mx >= 100 && mx <= 600) {
                 if(my >= 550 && my <= 600)  {
-                    State = Canvas.STATE.MENU;
                     System.out.println("DONE");
                 }
             }
+        } else if(State == STATE.GAME) {
+            if(mx >= 20 && mx <= 100) {
+                if(my >= 20 && my <= 100) {
+                    State = Canvas.STATE.PAUSE;
+                }
+            }
+
+        } else if(State == STATE.PAUSE) {
+            // Resume button
+            if(mx >= 430 && mx <= 580) {
+                if(my >= 250 && my <= 300) {
+                    State = Canvas.STATE.GAME;
+                }
+            }
+            // Main menu button
+            if(mx >= 430 && mx <= 580) {
+                if(my >= 350 && my <= 400)  {
+                    State = Canvas.STATE.MENU;
+                }
+            }
+            // Quit Button
+            if(mx >= 430 && mx <= 580) {
+                if(my >= 450 && my <= 500)  {
+                    System.exit(1);
+                }
+            } 
+
         }
         repaint();
     }
@@ -180,6 +216,20 @@ class Canvas extends JPanel implements MouseMotionListener, MouseListener, Actio
             }
             cueball.paintComponent(g);
             player.paintComponent(g, this.cueball, mx, my);
-        } 
+        }
+        if(State == STATE.PAUSE) {
+            super.paintComponent(g);
+            table.paintComponent(g);
+    
+            for(int i = 0; i < 7; i++) {
+                this.solidBall.get(i).paintComponent(g);
+                this.stripedBall.get(i).paintComponent(g);
+            }
+            cueball.paintComponent(g);
+            player.paintComponent(g, this.cueball, mx, my);
+
+            pause.paintComponent(g);
+        }
+        
     }
 }
