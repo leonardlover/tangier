@@ -20,9 +20,17 @@ class Canvas extends JPanel implements MouseMotionListener, MouseListener, Actio
     private ArrayList<SolidBall> solidBall;
     private ArrayList<StripedBall> stripedBall;
     private Color[] color;
+    
     private Player player;
+    private Menu menu;
+    
     private int mx;
     private int my;
+    public static enum STATE {
+        MENU,
+        GAME
+    };
+    public static STATE State = STATE.MENU;
 
     public Canvas() {
         super();
@@ -50,15 +58,17 @@ class Canvas extends JPanel implements MouseMotionListener, MouseListener, Actio
 
         this.setLayout(null);
         this.setBackground(Color.white);
-
+        menu = new Menu();
         Timer t = new Timer(16, this);
         t.start();
     }
 
     public void mouseMoved(MouseEvent me) {
-        mx = me.getX();
-        my = me.getY();
-        this.repaint();
+        if(State == STATE.GAME) {
+            mx = me.getX();
+            my = me.getY();
+            this.repaint();
+        }
     }
 
     public void mouseDragged(MouseEvent me) {
@@ -69,6 +79,27 @@ class Canvas extends JPanel implements MouseMotionListener, MouseListener, Actio
     }
 
     public void mousePressed(MouseEvent me) {
+        int mx = me.getX();
+        int my = me.getY();
+        /*
+        playButton = new Rectangle(430, 250, 150, 50);
+        optionsButton = new Rectangle(430, 350, 150, 50); 
+        quitButton = new Rectangle(430, 450, 150, 50);
+         */
+        
+        // Play Button
+        if(mx >= 430 && mx <= 580) {
+            if(my >= 250 && my <= 300) {
+                //pressed play button
+                Canvas.State = Canvas.STATE.GAME;
+            }
+        }
+        // Quit Button
+        if(mx >= 430 && mx <= 580) {
+            if(my >= 450 && my <= 500)  {
+                System.exit(1);
+            }
+        }
     }
 
     public void mouseReleased(MouseEvent me) {
@@ -81,27 +112,29 @@ class Canvas extends JPanel implements MouseMotionListener, MouseListener, Actio
     }
 
     public void actionPerformed(ActionEvent ae) {
-        this.cueball.move(solidBall, stripedBall);
-        for (int i = 0; i < solidBall.size(); i++) {
-            this.solidBall.get(i).move(solidBall, stripedBall);
-            this.solidBall.get(i).vx *= 0.99;
-            this.solidBall.get(i).vy *= 0.99;
-            this.stripedBall.get(i).move(solidBall, stripedBall);
-            this.stripedBall.get(i).vx *= 0.9;
-            this.stripedBall.get(i).vy *= 0.9;
+        if(State == STATE.GAME) {
+            this.cueball.move(solidBall, stripedBall);
+            for (int i = 0; i < solidBall.size(); i++) {
+                this.solidBall.get(i).move(solidBall, stripedBall);
+                this.stripedBall.get(i).move(solidBall, stripedBall);
+            }
+            repaint();
         }
-        repaint();
     }
 
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
-        table.paintComponent(g);
+        if(State == STATE.GAME) {
+            table.paintComponent(g);
     
-        for(int i = 0; i < 7; i++) {
-            this.solidBall.get(i).paintComponent(g);
-            this.stripedBall.get(i).paintComponent(g);
+            for(int i = 0; i < 7; i++) {
+                this.solidBall.get(i).paintComponent(g);
+                this.stripedBall.get(i).paintComponent(g);
+            }
+            cueball.paintComponent(g);
+            player.paintComponent(g, this.cueball, mx, my);
+        } else if(State == STATE.MENU) {
+            menu.paintComponent(g);
         }
-        cueball.paintComponent(g);
-        player.paintComponent(g, this.cueball, mx, my);
     }
 }
