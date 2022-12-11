@@ -7,7 +7,7 @@ class CueBall extends Ball {
         super(Color.white, "", 500, 500);
     }
 
-    public void move() {
+    /*public void move() {
         double dx = 10 * vx;
         double dy = 10 * vy;
 
@@ -24,7 +24,7 @@ class CueBall extends Ball {
         else {
             isMoving = false;
         }
-    }
+    }*/
 
     public void paintComponent(Graphics g) {
         g.setColor(Color.white);

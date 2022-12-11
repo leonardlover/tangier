@@ -104,7 +104,10 @@ class Canvas extends JPanel implements MouseMotionListener, MouseListener, Actio
     }
 
     public void actionPerformed(ActionEvent ae) {
-        this.cueball.move();
+        this.cueball.move(solidBall);
+        for (int i = 0; i < solidBall.size(); i++) {
+            this.solidBall.get(i).move(solidBall);
+        }
         repaint();
     }
 
