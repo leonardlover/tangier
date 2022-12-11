@@ -11,7 +11,6 @@ class Player extends JPanel {
         this.cue = new Cue();
     }
 
-    public void paintComponent(Graphics g, CueBall cb, int mx, int my) {
-        this.cue.paintComponent(g, cb, mx, my);
+    public void paintComponent(Graphics g) {
     }
 }

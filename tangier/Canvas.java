@@ -14,130 +14,37 @@ import javax.swing.JPanel;
 import javax.swing.Timer;
 
 class Canvas extends JPanel implements MouseMotionListener, MouseListener, ActionListener {
-    private Random rand;
     private Table table;
-    private CueBall cueball;
-    private ArrayList<SolidBall> solidBall;
-    private ArrayList<StripedBall> stripedBall;
-    private Color[] color;
-    
-    private Player player;
-    private Menu menu;
-    private Options options;
-    
+    private Rack rack;
     private int mx;
     private int my;
-    public static enum STATE {
-        MENU,
-        OPTIONS,
-        GAME
-    };
-    public static STATE State = STATE.MENU;
 
     public Canvas() {
         super();
-        rand = new Random();
         this.addMouseMotionListener(this);
         this.addMouseListener(this);
         this.table = new Table();
-        this.cueball = new CueBall();
-        this.player = new Player();
-        this.color = new Color[] {Color.yellow, Color.blue, Color.red, new Color(0x9F2B68), Color.orange, Color.green, new Color(0x4B371C)};
-        this.solidBall = new ArrayList<SolidBall>();
-        this.stripedBall = new ArrayList<StripedBall>();
-        
-        for(int i = 0; i < 7; i++) {
-            this.solidBall.add(new SolidBall(color[i], String.valueOf(i+1)));
-            this.solidBall.get(i).setX(rand.nextInt(770)+100);
-            this.solidBall.get(i).setY(rand.nextInt(570)+100);
-            
-            this.stripedBall.add(new StripedBall(color[i], String.valueOf(i+9)));
-            this.stripedBall.get(i).setX(rand.nextInt(770)+100);
-            this.stripedBall.get(i).setY(rand.nextInt(570)+100);
-        }
+        this.rack = new Rack();
         mx = 0;
         my = 0;
 
         this.setLayout(null);
         this.setBackground(Color.white);
-        menu = new Menu();
-        options = new Options();
 
         Timer t = new Timer(16, this);
         t.start();
     }
 
     public void mouseMoved(MouseEvent me) {
-        if(State == STATE.GAME) {
-            mx = me.getX();
-            my = me.getY();
-            this.repaint();
-        }
     }
 
     public void mouseDragged(MouseEvent me) {
     }
 
     public void mouseClicked(MouseEvent me) {
-        this.player.cue.hitBall(this.cueball);
     }
 
     public void mousePressed(MouseEvent me) {
-        int mx = me.getX();
-        int my = me.getY();
-        
-        if(State == STATE.MENU) {
-            // Play Button
-            if(mx >= 430 && mx <= 580) {
-                if(my >= 250 && my <= 300) {
-                    State = Canvas.STATE.GAME;
-                }
-            }
-            // Options button
-            if(mx >= 430 && mx <= 580) {
-                if(my >= 350 && my <= 400)  {
-                    State = Canvas.STATE.OPTIONS;
-                    System.out.println("OPTIONS");
-                }
-            }
-            // Quit Button
-            if(mx >= 430 && mx <= 580) {
-                if(my >= 450 && my <= 500)  {
-                    System.exit(1);
-                }
-            }  
-        }
-        else if(State == STATE.OPTIONS) {
-        /*
-        helpButton = new Rectangle(100, 400, 200, 50);
-        musicButton = new Rectangle(100, 300, 200, 50);
-        soundButton = new Rectangle(350, 300, 200, 50);
-        modeButton = new Rectangle(350, 400, 200, 50);
-        doneButton = new Rectangle(100, 550, 500, 50); 
-        */
-            // Help Button
-            if(mx >= 100 && mx <= 300) {
-                if(my >= 400 && my <= 450) {
-                    System.out.println("HELP");
-                    // Abrir ventana explicando el juego
-                }
-            }
-            // Mode button
-            if(mx >= 350 && mx <= 550) {
-                if(my >= 400 && my <= 450)  {
-                    System.out.println("MODE");
-                    // Mode += 1; // modo de juego (aleatorio o en triangulo)
-                }
-            }
-            // Done Button
-            if(mx >= 100 && mx <= 600) {
-                if(my >= 550 && my <= 600)  {
-                    State = Canvas.STATE.MENU;
-                    System.out.println("DONE");
-                }
-            }
-        }
-        repaint();
     }
 
 
@@ -151,35 +58,11 @@ class Canvas extends JPanel implements MouseMotionListener, MouseListener, Actio
     }
 
     public void actionPerformed(ActionEvent ae) {
-        if(State == STATE.GAME) {
-            this.cueball.move(solidBall, stripedBall);
-            for (int i = 0; i < solidBall.size(); i++) {
-                this.solidBall.get(i).move(solidBall, stripedBall);
-                this.stripedBall.get(i).move(solidBall, stripedBall);
-            }
-            repaint();
-        }
     }
 
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
-
-        if(State == STATE.MENU) {
-            menu.paintComponent(g);
-        } 
-        if(State == STATE.OPTIONS) {
-            options.paintComponent(g);
-        }
-        if(State == STATE.GAME) {
-            super.paintComponent(g);
-            table.paintComponent(g);
-    
-            for(int i = 0; i < 7; i++) {
-                this.solidBall.get(i).paintComponent(g);
-                this.stripedBall.get(i).paintComponent(g);
-            }
-            cueball.paintComponent(g);
-            player.paintComponent(g, this.cueball, mx, my);
-        } 
+        table.paintComponent(g);
+        rack.paintComponent(g);
     }
 }
