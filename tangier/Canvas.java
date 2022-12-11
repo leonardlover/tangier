@@ -23,11 +23,13 @@ class Canvas extends JPanel implements MouseMotionListener, MouseListener, Actio
     
     private Player player;
     private Menu menu;
+    private Options options;
     
     private int mx;
     private int my;
     public static enum STATE {
         MENU,
+        OPTIONS,
         GAME
     };
     public static STATE State = STATE.MENU;
@@ -59,6 +61,8 @@ class Canvas extends JPanel implements MouseMotionListener, MouseListener, Actio
         this.setLayout(null);
         this.setBackground(Color.white);
         menu = new Menu();
+        options = new Options();
+
         Timer t = new Timer(16, this);
         t.start();
     }
@@ -81,26 +85,61 @@ class Canvas extends JPanel implements MouseMotionListener, MouseListener, Actio
     public void mousePressed(MouseEvent me) {
         int mx = me.getX();
         int my = me.getY();
-        /*
-        playButton = new Rectangle(430, 250, 150, 50);
-        optionsButton = new Rectangle(430, 350, 150, 50); 
-        quitButton = new Rectangle(430, 450, 150, 50);
-         */
         
-        // Play Button
-        if(mx >= 430 && mx <= 580) {
-            if(my >= 250 && my <= 300) {
-                //pressed play button
-                Canvas.State = Canvas.STATE.GAME;
+        if(State == STATE.MENU) {
+            // Play Button
+            if(mx >= 430 && mx <= 580) {
+                if(my >= 250 && my <= 300) {
+                    State = Canvas.STATE.GAME;
+                }
+            }
+            // Options button
+            if(mx >= 430 && mx <= 580) {
+                if(my >= 350 && my <= 400)  {
+                    State = Canvas.STATE.OPTIONS;
+                    System.out.println("OPTIONS");
+                }
+            }
+            // Quit Button
+            if(mx >= 430 && mx <= 580) {
+                if(my >= 450 && my <= 500)  {
+                    System.exit(1);
+                }
+            }  
+        }
+        else if(State == STATE.OPTIONS) {
+        /*
+        helpButton = new Rectangle(100, 400, 200, 50);
+        musicButton = new Rectangle(100, 300, 200, 50);
+        soundButton = new Rectangle(350, 300, 200, 50);
+        modeButton = new Rectangle(350, 400, 200, 50);
+        doneButton = new Rectangle(100, 550, 500, 50); 
+        */
+            // Help Button
+            if(mx >= 100 && mx <= 300) {
+                if(my >= 400 && my <= 450) {
+                    System.out.println("HELP");
+                    // Abrir ventana explicando el juego
+                }
+            }
+            // Mode button
+            if(mx >= 350 && mx <= 550) {
+                if(my >= 400 && my <= 450)  {
+                    System.out.println("MODE");
+                    // Mode += 1; // modo de juego (aleatorio o en triangulo)
+                }
+            }
+            // Done Button
+            if(mx >= 100 && mx <= 600) {
+                if(my >= 550 && my <= 600)  {
+                    State = Canvas.STATE.MENU;
+                    System.out.println("DONE");
+                }
             }
         }
-        // Quit Button
-        if(mx >= 430 && mx <= 580) {
-            if(my >= 450 && my <= 500)  {
-                System.exit(1);
-            }
-        }
+        repaint();
     }
+
 
     public void mouseReleased(MouseEvent me) {
     }
@@ -124,7 +163,15 @@ class Canvas extends JPanel implements MouseMotionListener, MouseListener, Actio
 
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
+
+        if(State == STATE.MENU) {
+            menu.paintComponent(g);
+        } 
+        if(State == STATE.OPTIONS) {
+            options.paintComponent(g);
+        }
         if(State == STATE.GAME) {
+            super.paintComponent(g);
             table.paintComponent(g);
     
             for(int i = 0; i < 7; i++) {
@@ -133,8 +180,6 @@ class Canvas extends JPanel implements MouseMotionListener, MouseListener, Actio
             }
             cueball.paintComponent(g);
             player.paintComponent(g, this.cueball, mx, my);
-        } else if(State == STATE.MENU) {
-            menu.paintComponent(g);
-        }
+        } 
     }
 }
