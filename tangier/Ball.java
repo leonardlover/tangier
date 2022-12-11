@@ -26,26 +26,52 @@ class Ball extends JPanel {
         isMoving = false;
     }
 
-    public void move(ArrayList<SolidBall> balls) {
+    public void move(ArrayList<SolidBall> solid, ArrayList<StripedBall> striped) {
         double dx = 10 * vx;
         double dy = 10 * vy;
 
-        x -= dx;
-        y -= dy;
+        if (x - dx >= 100 && x - dx <= 870) {
+            x -= dx;
+        }
+        else {
+            isMoving = false;
+        }
+
+        if (y - dy >= 100 && y - dy <= 670) {
+            y -= dy;
+        }
+        else {
+            isMoving = false;
+        }
 
         int xc = x + 15;
         int yc = y + 15;
 
-        for (int i = 0; i < balls.size(); i++) {
-            int delx = xc - balls.get(i).x - 15;
-            int dely = yc - balls.get(i).y - 15;
+        for (int i = 0; i < solid.size(); i++) {
+            int delx = xc - solid.get(i).x - 15;
+            int dely = yc - solid.get(i).y - 15;
 
-            if (Math.hypot(delx, dely) <= 30) {
+            if (Math.hypot(delx, dely) <= 30 && number != solid.get(i).number) {
                 double angle = Math.atan2(dely, delx);
-                balls.get(i).vx = Math.cos(angle);
-                balls.get(i).vy = Math.sin(angle);
+                solid.get(i).vx = Math.cos(angle);
+                solid.get(i).vy = Math.sin(angle);
                 vx = 0;
                 vy = 0;
+                isMoving = false;
+            }
+        }
+
+        for (int i = 0; i < striped.size(); i++) {
+            int delx = xc - striped.get(i).x - 15;
+            int dely = yc - striped.get(i).y - 15;
+
+            if (Math.hypot(delx, dely) <= 30 && number != striped.get(i).number) {
+                double angle = Math.atan2(dely, delx);
+                striped.get(i).vx = Math.cos(angle);
+                striped.get(i).vy = Math.sin(angle);
+                vx = 0;
+                vy = 0;
+                isMoving = false;
             }
         }
     }
