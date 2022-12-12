@@ -105,7 +105,7 @@ public class Ball extends JPanel {
         return number;
     }
 
-    public Color getColor() {
+    private Color getColor() {
         switch (number) {
             case 0:
                 return new Color(0xFFFFFF);
