@@ -33,7 +33,7 @@ En las esquinas debe haber troneras donde pueden caer.
 
 En la clase Window se utilizó un patrón Singleton, utilizando un constructor privado y que solo existiera una instancia de esta clase, pues durante todo el juego solamente habrá una ventana.
 
-#### Captura de la interfaz
+#### Captura de la interfaz
 
 ![](mainPane.png)
 ![](gamePane.png)
