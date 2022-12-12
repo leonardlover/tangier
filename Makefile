@@ -1,3 +1,3 @@
 all:
-	javac tangier/*.java
-	java tangier.Tangier
+	javac -d . tangier/gui/Tangier.java
+	java tangier.gui.Tangier
