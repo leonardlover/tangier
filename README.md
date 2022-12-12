@@ -27,6 +27,7 @@ En las esquinas debe haber troneras donde pueden caer.
 - Nos costó un montón comprender con profundidad cómo funcionaban las interfaces de Listeners y cómo hacer que los Timers actualizaran todo con la velocidad y eficiencia que esperábamos.
 - Hacer que el taco apuntara a la bola blanca fue muy divertido y desafiante, tuvimos que utilizar muchas herramientas para que pudiera mantenerse centrado en la bola y que rotara cuando el mouse se moviera.
 - Queríamos implementar un sistema de "tiza" que hiciera el tiro del taco menos preciso, pero cuando se implementó, el juego se volvía demasiado complicado y no era placentero jugarlo, así que por mucho que nos gustara la idea no pudimos hacer algo que satisfaciera nuestro ideal.
+- Para realizar el proyecto no usamos mucho NetBeans, lo agregamos como último commit para mantener el consenso del curso y pusimos todas las clases en un solo paquete. Invitamos a ver la versión inmediatamente anterior para que vean que separamos las clases en 3, assets, menu y gui. Esto lo compilábamos y ejecutábamos con un Makefile.
 - A pesar de todo esto, estamos muy complacidos con el resultado del proyecto y comentamos que aprendimos a trabajar en paralelo eficientemente.
 
 ### Patrones utilizados
