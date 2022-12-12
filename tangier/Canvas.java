@@ -7,6 +7,7 @@ import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
+import java.awt.*;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Random;
@@ -33,9 +34,16 @@ class Canvas extends JPanel implements MouseMotionListener, MouseListener, Actio
         MENU,
         OPTIONS,
         GAME,
-        PAUSE
+        PAUSE,
+        HELP
     };
     public static STATE State;
+    public static enum MODE {
+        RANDOM,
+        PYRAMID
+    };
+    public static MODE Mode;
+    public Rectangle helpRect;
 
     public Canvas() {
         super();
@@ -66,9 +74,11 @@ class Canvas extends JPanel implements MouseMotionListener, MouseListener, Actio
         this.setBackground(Color.white);
         
         State = STATE.MENU;
+        Mode = MODE.RANDOM;
         menu = new Menu();
         options = new Options();
         pause = new Pause();
+        helpRect = new Rectangle(50,50,900,665);
 
         Timer t = new Timer(16, this);
         t.start();
@@ -95,54 +105,54 @@ class Canvas extends JPanel implements MouseMotionListener, MouseListener, Actio
         
         if(State == STATE.MENU) {
             // Play Button
-            if(mx >= 430 && mx <= 580) {
-                if(my >= 250 && my <= 300) {
+            if(mx >= 360 && mx <= 660) {
+                if(my >= 275 && my <= 325) {
                     State = Canvas.STATE.GAME;
                 }
             }
             // Options button
-            if(mx >= 430 && mx <= 580) {
-                if(my >= 350 && my <= 400)  {
+            if(mx >= 360 && mx <= 660) {
+                if(my >= 375 && my <= 425)  {
                     State = Canvas.STATE.OPTIONS;
                 }
             }
             // Quit Button
-            if(mx >= 430 && mx <= 580) {
-                if(my >= 450 && my <= 500)  {
+            if(mx >= 360 && mx <= 660) {
+                if(my >= 475 && my <= 525)  {
                     System.exit(1);
                 }
             }  
         } else if(State == STATE.OPTIONS) {
             // Help Button
-            if(mx >= 100 && mx <= 300) {
+            if(mx >= 225 && mx <= 475) {
                 if(my >= 400 && my <= 450) {
                     System.out.println("HELP");
-                    // Abrir ventana explicando el juego
-                }
-            }
-            // Music button
-            if(mx >= 100 && mx <= 300) {
-                if(my >= 300 && my <= 350)  {
-                    System.out.println("MUSIC");
-                }
-            }
-            // Sound Button
-            if(mx >= 350 && mx <= 550) {
-                if(my >= 300 && my <= 350) {
-                    System.out.println("SOUND");
+                    State = STATE.HELP;
                 }
             }
             // Mode button
-            if(mx >= 350 && mx <= 550) {
+            if(mx >= 525 && mx <= 775) {
                 if(my >= 400 && my <= 450)  {
-                    System.out.println("MODE");
-                    // Mode += 1; // modo de juego (aleatorio o en triangulo)
+                    if(Mode == MODE.RANDOM) {
+                        Mode = MODE.PYRAMID;
+                        options.setMode("Pyramid");
+                    } else if(Mode == MODE.PYRAMID) {
+                        Mode = MODE.RANDOM;
+                        options.setMode("Random");
+                    }
+                    System.out.println("MODE: " + options.mode);
                 }
             }
             // Done Button
-            if(mx >= 100 && mx <= 600) {
-                if(my >= 550 && my <= 600)  {
-                    System.out.println("DONE");
+            if(mx >= 225 && mx <= 775) {
+                if(my >= 500 && my <= 550)  {
+                    State = Canvas.STATE.MENU;
+                }
+            }
+        } else if(State == STATE.HELP) {
+            if(mx >= 255 && mx <= 805) {
+                if(my >= 600 && my <= 650) {
+                    State = STATE.OPTIONS;
                 }
             }
         } else if(State == STATE.GAME) {
@@ -208,7 +218,10 @@ class Canvas extends JPanel implements MouseMotionListener, MouseListener, Actio
         }
         if(State == STATE.GAME) {
             super.paintComponent(g);
+            g.setFont(new Font("arial", Font.PLAIN, 20));
+            g.drawString("PAUSE",20,40);
             table.paintComponent(g);
+            g.setFont(new Font("arial",Font.PLAIN, 11));
     
             for(int i = 0; i < 7; i++) {
                 this.solidBall.get(i).paintComponent(g);
@@ -219,8 +232,9 @@ class Canvas extends JPanel implements MouseMotionListener, MouseListener, Actio
         }
         if(State == STATE.PAUSE) {
             super.paintComponent(g);
+            g.setFont(new Font("arial",Font.PLAIN, 11));
             table.paintComponent(g);
-    
+            
             for(int i = 0; i < 7; i++) {
                 this.solidBall.get(i).paintComponent(g);
                 this.stripedBall.get(i).paintComponent(g);
@@ -229,6 +243,27 @@ class Canvas extends JPanel implements MouseMotionListener, MouseListener, Actio
             player.paintComponent(g, this.cueball, mx, my);
 
             pause.paintComponent(g);
+        }
+        if(State == STATE.HELP) {
+            super.paintComponent(g);
+            Graphics2D g2d = (Graphics2D) g;
+            g2d.draw(helpRect);
+
+            Font f0 = new Font("arial", Font.BOLD, 30);
+            g.setFont(f0);
+            g.setColor(Color.black);
+            g.drawString("Help", 450, 150);
+            
+            Font f1 = new Font("arial", Font.PLAIN, 18);
+            g.setFont(f1);
+            g.drawString("This game is made to be played in turns by two players. When clicking, the cue hits the", 100, 250);
+            g.drawString("white ball at the angle at which it is located. The player who scores the most wins.", 100, 270);
+            g.drawString("Have fun!", 100, 290);
+            g.drawString("Made by Leonardo and Claudia", 100, 490);
+
+            g.setFont(new Font("arial", Font.PLAIN, 30));
+            g2d.draw(new Rectangle(255,600,550,50));
+            g.drawString("Done", 255+230, 635);
         }
         
     }
