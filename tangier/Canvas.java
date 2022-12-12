@@ -1,35 +1,29 @@
 package tangier;
-import java.awt.Color;
-import java.awt.Graphics;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.KeyEvent;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
-import java.awt.event.MouseMotionListener;
+
 import java.awt.*;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Random;
+import java.awt.event.*;
 
 import javax.swing.JPanel;
 import javax.swing.Timer;
 
+import java.util.Random;
+
 class Canvas extends JPanel implements MouseMotionListener, MouseListener, ActionListener {
     private Random rand;
     private Table table;
-    private CueBall cueball;
-    private ArrayList<SolidBall> solidBall;
-    private ArrayList<StripedBall> stripedBall;
-    private Color[] color;
-    
-    private Player player;
+    private Rack rack;
+    private Ball cueball;
+    private Player player1;
+    private Player player2;
+    private int turn;
+    private int ticks;
+    private int mx;
+    private int my;
+
     private Menu menu;
     private Options options;
     private Pause pause;
-    
-    private int mx;
-    private int my;
+
     public static enum STATE {
         MENU,
         OPTIONS,
@@ -38,11 +32,13 @@ class Canvas extends JPanel implements MouseMotionListener, MouseListener, Actio
         HELP
     };
     public static STATE State;
+
     public static enum MODE {
         RANDOM,
         PYRAMID
     };
     public static MODE Mode;
+
     public Rectangle helpRect;
 
     public Canvas() {
@@ -51,30 +47,23 @@ class Canvas extends JPanel implements MouseMotionListener, MouseListener, Actio
         this.addMouseMotionListener(this);
         this.addMouseListener(this);
 
-        this.table = new Table();
-        this.cueball = new CueBall();
-        this.player = new Player();
-        this.color = new Color[] {Color.yellow, Color.blue, Color.red, new Color(0x9F2B68), Color.orange, Color.green, new Color(0x4B371C)};
-        this.solidBall = new ArrayList<SolidBall>();
-        this.stripedBall = new ArrayList<StripedBall>();
-        
-        for(int i = 0; i < 7; i++) {
-            this.solidBall.add(new SolidBall(color[i], String.valueOf(i+1)));
-            this.solidBall.get(i).setX(rand.nextInt(770)+100);
-            this.solidBall.get(i).setY(rand.nextInt(570)+100);
-            
-            this.stripedBall.add(new StripedBall(color[i], String.valueOf(i+9)));
-            this.stripedBall.get(i).setX(rand.nextInt(770)+100);
-            this.stripedBall.get(i).setY(rand.nextInt(570)+100);
-        }
+        table = new Table();
+        rack = new Rack();
+        cueball = rack.getCueBall();
+        player1 = new Player();
+        player2 = new Player();
+
+        turn = 0;
+        ticks = 0;
+
         mx = 0;
         my = 0;
 
         this.setLayout(null);
         this.setBackground(Color.white);
-        
+
         State = STATE.MENU;
-        Mode = MODE.RANDOM;
+        Mode = MODE.PYRAMID;
         menu = new Menu();
         options = new Options();
         pause = new Pause();
@@ -88,7 +77,6 @@ class Canvas extends JPanel implements MouseMotionListener, MouseListener, Actio
         if(State == STATE.GAME) {
             mx = me.getX();
             my = me.getY();
-            this.repaint();
         }
     }
 
@@ -96,12 +84,28 @@ class Canvas extends JPanel implements MouseMotionListener, MouseListener, Actio
     }
 
     public void mouseClicked(MouseEvent me) {
-        this.player.cue.hitBall(this.cueball);
+        if(State == STATE.GAME) {
+            if (turn == 0) {
+                turn = 1;
+            }
+            else if (!cueball.isMoving()) {
+                if (turn == 1) {
+                    rack.hitWithCue(player1.getCue());
+                    ticks = 0;
+                    turn = 2;
+                }
+                else if (turn == 2) {
+                    rack.hitWithCue(player2.getCue());
+                    ticks = 0;
+                    turn = 1;
+                }
+            }
+        }
     }
 
     public void mousePressed(MouseEvent me) {
-        int mx = me.getX();
-        int my = me.getY();
+        mx = me.getX();
+        my = me.getY();
         
         if(State == STATE.MENU) {
             // Play Button
@@ -133,14 +137,19 @@ class Canvas extends JPanel implements MouseMotionListener, MouseListener, Actio
             // Mode button
             if(mx >= 525 && mx <= 775) {
                 if(my >= 400 && my <= 450)  {
-                    if(Mode == MODE.RANDOM) {
-                        Mode = MODE.PYRAMID;
-                        options.setMode("Pyramid");
-                    } else if(Mode == MODE.PYRAMID) {
+                    if(Mode == MODE.PYRAMID) {
                         Mode = MODE.RANDOM;
                         options.setMode("Random");
+                        rack = new Rack();
+                        rack.setBallPos(0,300,400);
+                        for(int i = 1; i < 16; i++) {
+                            this.rack.setBallPos(i,rand.nextInt(770)+100,rand.nextInt(570)+100);
+                        }
+                    } else if(Mode == MODE.RANDOM) {
+                        Mode = MODE.PYRAMID;
+                        options.setMode("Pyramid");
+                        rack = new Rack();
                     }
-                    System.out.println("MODE: " + options.mode);
                 }
             }
             // Done Button
@@ -198,12 +207,9 @@ class Canvas extends JPanel implements MouseMotionListener, MouseListener, Actio
 
     public void actionPerformed(ActionEvent ae) {
         if(State == STATE.GAME) {
-            this.cueball.move(solidBall, stripedBall);
-            for (int i = 0; i < solidBall.size(); i++) {
-                this.solidBall.get(i).move(solidBall, stripedBall);
-                this.stripedBall.get(i).move(solidBall, stripedBall);
-            }
-            repaint();
+            rack.move(ticks, player1, player2);
+            ticks++;
+            this.repaint();
         }
     }
 
@@ -222,25 +228,31 @@ class Canvas extends JPanel implements MouseMotionListener, MouseListener, Actio
             g.drawString("PAUSE",20,40);
             table.paintComponent(g);
             g.setFont(new Font("arial",Font.PLAIN, 11));
-    
-            for(int i = 0; i < 7; i++) {
-                this.solidBall.get(i).paintComponent(g);
-                this.stripedBall.get(i).paintComponent(g);
+        
+            table.paintComponent(g);
+            rack.paintComponent(g);
+            player1.paintComponent(g, cueball, mx, my, (turn == 1));
+            player2.paintComponent(g, cueball, mx, my, (turn == 2));
+
+            if (turn == 0) {
+                g.drawString("Click to begin", 450, 30);
             }
-            cueball.paintComponent(g);
-            player.paintComponent(g, this.cueball, mx, my);
+            else {
+                g.drawString("Turn: Player " + turn, 450, 30);
+            }
         }
         if(State == STATE.PAUSE) {
-            super.paintComponent(g);
-            g.setFont(new Font("arial",Font.PLAIN, 11));
             table.paintComponent(g);
-            
-            for(int i = 0; i < 7; i++) {
-                this.solidBall.get(i).paintComponent(g);
-                this.stripedBall.get(i).paintComponent(g);
+            rack.paintComponent(g);
+            player1.paintComponent(g, cueball, mx, my, (turn == 1));
+            player2.paintComponent(g, cueball, mx, my, (turn == 2));
+
+            if (turn == 0) {
+                g.drawString("Click to begin", 450, 30);
             }
-            cueball.paintComponent(g);
-            player.paintComponent(g, this.cueball, mx, my);
+            else {
+                g.drawString("Turn: Player " + turn, 450, 30);
+            }
 
             pause.paintComponent(g);
         }
@@ -256,15 +268,13 @@ class Canvas extends JPanel implements MouseMotionListener, MouseListener, Actio
             
             Font f1 = new Font("arial", Font.PLAIN, 18);
             g.setFont(f1);
-            g.drawString("This game is made to be played in turns by two players. When clicking, the cue hits the", 100, 250);
-            g.drawString("white ball at the angle at which it is located. The player who scores the most wins.", 100, 270);
-            g.drawString("Have fun!", 100, 290);
-            g.drawString("Made by Leonardo and Claudia", 100, 490);
+            g.drawString("This is a two players by turns game. When clicking, the cue hits the white ball.", 100, 250);
+            g.drawString("In options->mode, you can choose if balls appear in random or pyramid positions.", 100, 270);
+            g.drawString("The player who scores the most wins. Have fun!", 100, 290);
 
             g.setFont(new Font("arial", Font.PLAIN, 30));
             g2d.draw(new Rectangle(255,600,550,50));
             g.drawString("Done", 255+230, 635);
         }
-        
     }
 }

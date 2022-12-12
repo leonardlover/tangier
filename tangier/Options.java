@@ -15,7 +15,7 @@ class Options extends JPanel {
         helpButton = new Rectangle(225, 400, 250, 50);
         modeButton = new Rectangle(525, 400, 250, 50);
         doneButton = new Rectangle(225, 500, 550, 50);
-        mode = "Random";
+        mode = "Pyramid";
     }
 
     public void setMode(String m) {
