@@ -113,25 +113,29 @@ class Rack extends JPanel {
 
                 int n = b.getNumber();
 
-                if (n != 0 && n != 8) {
-                    int xc = b.getX() + 15;
-                    int yc = b.getY() + 15;
+                int xc = b.getX() + 15;
+                int yc = b.getY() + 15;
 
-                    if (Math.hypot(xc - 100, yc - 100) <= 25 ||
-                        Math.hypot(xc - 500, yc - 100) <= 25 ||
-                        Math.hypot(xc - 900, yc - 100) <= 25 ||
-                        Math.hypot(xc - 100, yc - 700) <= 25 ||
-                        Math.hypot(xc - 500, yc - 700) <= 25 ||
-                        Math.hypot(xc - 900, yc - 700) <= 25) {
-                        b.unsetMoving();
+                if (Math.hypot(xc - 100, yc - 100) <= 25 ||
+                    Math.hypot(xc - 500, yc - 100) <= 25 ||
+                    Math.hypot(xc - 900, yc - 100) <= 25 ||
+                    Math.hypot(xc - 100, yc - 700) <= 25 ||
+                    Math.hypot(xc - 500, yc - 700) <= 25 ||
+                    Math.hypot(xc - 900, yc - 700) <= 25) {
+                    b.unsetMoving();
 
-                        if (n < 8) {
-                            p.pocketBall(b);
-                        }
-                        else {
+                    if (n == 0) {
+                        ticks = 120;
+                        b.setPos(300, 400);
+                    }
+                    else if (n < 8) {
+                        p.pocketBall(b);
+                    }
+                    else if (n == 8) {
+                    }
+                    else {
 
-                            q.pocketBall(b);
-                        }
+                        q.pocketBall(b);
                     }
                 }
             }
