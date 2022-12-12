@@ -29,11 +29,19 @@ En las esquinas debe haber troneras donde pueden caer.
 - Queríamos implementar un sistema de "tiza" que hiciera el tiro del taco menos preciso, pero cuando se implementó, el juego se volvía demasiado complicado y no era placentero jugarlo, así que por mucho que nos gustara la idea no pudimos hacer algo que satisfaciera nuestro ideal.
 - A pesar de todo esto, estamos muy complacidos con el resultado del proyecto y comentamos que aprendimos a trabajar en paralelo eficientemente.
 
-#### Patrones utilizados
+### Patrones utilizados
 
 En la clase Window se utilizó un patrón Singleton, utilizando un constructor privado y que solo existiera una instancia de esta clase, pues durante todo el juego solamente habrá una ventana.
 
-#### Captura de la interfaz
+### Captura de la interfaz
 
 ![](mainPane.png)
 ![](gamePane.png)
+
+### Diagrama de casos de uso
+
+![](useCase.jpeg)
+
+### Diagrama UML
+
+![](UML.png)
