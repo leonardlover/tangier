@@ -145,10 +145,12 @@ class Canvas extends JPanel implements MouseMotionListener, MouseListener, Actio
                         for(int i = 1; i < 16; i++) {
                             this.rack.setBallPos(i,rand.nextInt(770)+100,rand.nextInt(570)+100);
                         }
+                        cueball = rack.getCueBall();
                     } else if(Mode == MODE.RANDOM) {
                         Mode = MODE.PYRAMID;
                         options.setMode("Pyramid");
                         rack = new Rack();
+                        cueball = rack.getCueBall();
                     }
                 }
             }
