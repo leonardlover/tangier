@@ -1,9 +1,9 @@
-package tangier;
+package tangier.assets;
 
 import java.awt.*;
 import javax.swing.JPanel;
 
-class Ball extends JPanel {
+public class Ball extends JPanel {
     private int x;
     private int y;
     private double vx;

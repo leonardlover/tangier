@@ -1,8 +1,8 @@
-package tangier;
+package tangier.menus;
 import java.awt.*;
 import javax.swing.JPanel;
 
-class Pause extends JPanel {
+public class Pause extends JPanel {
     public Rectangle resumeButton;
     public Rectangle mainMenuButton;
     public Rectangle quitButton;

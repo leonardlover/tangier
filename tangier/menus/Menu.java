@@ -1,8 +1,8 @@
-package tangier;
+package tangier.menus;
 import java.awt.*;
 import javax.swing.JPanel;
 
-class Menu extends JPanel {
+public class Menu extends JPanel {
     public Rectangle playButton;
     public Rectangle optionsButton; 
     public Rectangle quitButton;

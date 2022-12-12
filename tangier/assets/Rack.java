@@ -1,10 +1,10 @@
-package tangier;
+package tangier.assets;
 
 import java.awt.*;
 import java.util.ArrayList;
 import javax.swing.JPanel;
 
-class Rack extends JPanel {
+public class Rack extends JPanel {
     private ArrayList<Ball> rack;
 
     public Rack() {

@@ -1,9 +1,9 @@
-package tangier;
+package tangier.assets;
 import java.awt.Color;
 import java.awt.Graphics;
 import javax.swing.JPanel;
 
-class Table extends JPanel {
+public class Table extends JPanel {
     public Table() {
         super();
     }

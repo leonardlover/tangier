@@ -1,8 +1,8 @@
-package tangier;
+package tangier.menus;
 import java.awt.*;
 import javax.swing.JPanel;
 
-class Options extends JPanel {
+public class Options extends JPanel {
     public Rectangle helpButton;
     public Rectangle musicButton;
     public Rectangle soundButton;

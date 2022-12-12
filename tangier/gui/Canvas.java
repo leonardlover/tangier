@@ -1,4 +1,4 @@
-package tangier;
+package tangier.gui;
 
 import java.awt.*;
 import java.awt.event.*;
@@ -7,6 +7,16 @@ import javax.swing.JPanel;
 import javax.swing.Timer;
 
 import java.util.Random;
+
+import tangier.assets.Ball;
+import tangier.assets.Cue;
+import tangier.assets.Player;
+import tangier.assets.Rack;
+import tangier.assets.Table;
+
+import tangier.menus.Menu;
+import tangier.menus.Options;
+import tangier.menus.Pause;
 
 class Canvas extends JPanel implements MouseMotionListener, MouseListener, ActionListener {
     private Random rand;

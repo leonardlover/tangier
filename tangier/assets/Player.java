@@ -1,10 +1,10 @@
-package tangier;
+package tangier.assets;
 
 import java.awt.*;
 import java.util.*;
 import javax.swing.JPanel;
 
-class Player extends JPanel {
+public class Player extends JPanel {
     private Cue cue;
     private ArrayList<Ball> balls;
 

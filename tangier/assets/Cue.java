@@ -1,10 +1,10 @@
-package tangier;
+package tangier.assets;
 
 import java.awt.*;
 import java.awt.geom.*;
 import javax.swing.JPanel;
 
-class Cue extends JPanel {
+public class Cue extends JPanel {
     private double angle;
 
     public Cue() {
