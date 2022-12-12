@@ -2,6 +2,9 @@ package tangier;
 import java.awt.BorderLayout;
 import javax.swing.JFrame;
 
+/** The Window of the game.
+ * @author leo
+ * */
 class Window extends JFrame {
     private static Window instance;
 

@@ -3,6 +3,9 @@ import java.awt.Color;
 import java.awt.Graphics;
 import javax.swing.JPanel;
 
+/** The game's Table.
+ *  @author leo
+ * */
 class Table extends JPanel {
     public Table() {
         super();

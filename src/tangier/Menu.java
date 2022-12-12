@@ -2,6 +2,9 @@ package tangier;
 import java.awt.*;
 import javax.swing.JPanel;
 
+/** Main menu class.
+ *  @author clau
+ * */
 class Menu extends JPanel {
     public Rectangle playButton;
     public Rectangle optionsButton; 

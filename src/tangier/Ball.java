@@ -3,6 +3,11 @@ package tangier;
 import java.awt.*;
 import javax.swing.JPanel;
 
+/** This class implements all Ball functionality in the game.
+ *  @author clau
+ *  @author leo
+ * */
+
 class Ball extends JPanel {
     private int x;
     private int y;
@@ -42,8 +47,11 @@ class Ball extends JPanel {
         this.setY(y);
     }
 
+    /** Allows to obtain angle of velocity if ball is moving.
+     *  @return Angle made by velocity with respect to x-axis.
+     * */
     public double getAngle() {
-        if (!isMoving) {
+        if (!isMoving) { /** We convene on an angle of 0 if ball not moving. */
             return 0.0;
         }
 
@@ -53,9 +61,13 @@ class Ball extends JPanel {
     public double getSpeed() {
         return Math.hypot(vx, vy);
     }
-
+    
+    /** Allow to set magnitude of velocity.
+     *  @param speed to give to ball
+     *  */
     public void setSpeed(double s) {
         double speed = this.getSpeed();
+        /** We need to normalize first. */
         double newVX = s * vx / speed;
         double newVY = s * vy / speed;
 
@@ -88,6 +100,9 @@ class Ball extends JPanel {
         return isMoving;
     }
 
+    /** Change state of ball to moving.
+     *  @param speed, angle
+     * */
     public void setMoving(double speed, double angle) {
         this.setVX(Math.cos(angle));
         this.setVY(Math.sin(angle));
@@ -95,6 +110,7 @@ class Ball extends JPanel {
         isMoving = true;
     }
 
+    /** Change state of ball to not moving. */
     public void unsetMoving() {
         this.setVX(0.0);
         this.setVY(0.0);
@@ -105,6 +121,9 @@ class Ball extends JPanel {
         return number;
     }
 
+    /** Obtain color corresponding to the number of the ball,
+     *
+     * */
     public Color getColor() {
         switch (number) {
             case 0:

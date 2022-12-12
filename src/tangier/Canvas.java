@@ -8,6 +8,11 @@ import javax.swing.Timer;
 
 import java.util.Random;
 
+/** This is the main Canvas on the game, it is the main controller.
+ *  @author clau
+ *  @author leo
+ * */
+
 class Canvas extends JPanel implements MouseMotionListener, MouseListener, ActionListener {
     private Random rand;
     private Table table;
@@ -206,6 +211,10 @@ class Canvas extends JPanel implements MouseMotionListener, MouseListener, Actio
 
     public void mouseExited(MouseEvent me) {
     }
+
+    /** 60 times a second this function executes, and it
+     *  updates the screen.
+     * */
 
     public void actionPerformed(ActionEvent ae) {
         if(State == STATE.GAME) {

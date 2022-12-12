@@ -2,6 +2,9 @@ package tangier;
 import java.awt.*;
 import javax.swing.JPanel;
 
+/** Pause menu class.
+ * @author clau
+ * */
 class Pause extends JPanel {
     public Rectangle resumeButton;
     public Rectangle mainMenuButton;

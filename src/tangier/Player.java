@@ -4,6 +4,10 @@ import java.awt.*;
 import java.util.*;
 import javax.swing.JPanel;
 
+/** Player class, implements the interaction of the player with the
+ *  rack and the table so that the games flows correctly.
+ *  @author clau
+ *  @author leo */
 class Player extends JPanel {
     private Cue cue;
     private ArrayList<Ball> balls;
@@ -18,6 +22,11 @@ class Player extends JPanel {
         return cue;
     }
 
+    /** If a ball enters a pocket, then
+     *  store it in the player's set of balls
+     *  and display it in the correct point counter.
+     *  @param b, the ball that was just pocketed.
+     * */
     public void pocketBall(Ball b) {
         int n = b.getNumber();
         b.setPos((n < 9) ? 20 : 945, 135 + 70 * (n % 8));

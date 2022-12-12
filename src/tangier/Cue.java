@@ -4,6 +4,12 @@ import java.awt.*;
 import java.awt.geom.*;
 import javax.swing.JPanel;
 
+/** Cue: class that calculates the angle made with the mouse
+ *  with respect to the Cue Ball so that hits make sense.
+ *  @author clau
+ *  @author leo
+ * */
+
 class Cue extends JPanel {
     private double angle;
 

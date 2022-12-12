@@ -4,6 +4,11 @@ import java.awt.*;
 import java.util.ArrayList;
 import javax.swing.JPanel;
 
+/** The Rack of balls present over the table,
+ *  it implements ball collition capabilities and
+ *  smart positioning.
+ *  @author leo
+ * */
 class Rack extends JPanel {
     private ArrayList<Ball> rack;
 
@@ -19,6 +24,7 @@ class Rack extends JPanel {
         int dx = 31;
         int dy = 20;
 
+        /** Position balls in a pyramid shape by default. */
         rack.get(0).setPos(300, 400);
         rack.get(9).setPos(600, 400);
         rack.get(12).setPos(600 + dx, 400 - dy);
@@ -44,6 +50,12 @@ class Rack extends JPanel {
         return rack.get(0);
     }
 
+    /** Hit cueball with cue
+     *  This mimicks a hit by simply giving the
+     *  cueball a speed of 10 and direction, the
+     *  one given by the cue.
+     *  @param cue
+     * */
     public void hitWithCue(Cue cue) {
         Ball cueball = this.getCueBall();
 
@@ -53,6 +65,12 @@ class Rack extends JPanel {
         }
     }
 
+    /** Move rack balls over table, while checking for collitions
+     *  and if any ball need to be pocketed.
+     *  @param ticks, to count 2 seconds, this gives friction.
+     *  @param p, to store in personal stash if necessary.
+     *  @param q, to store in personal stash if necessary.
+     *  */
     public void move(int ticks, Player p, Player q) {
         if (ticks >= 120) {
             for (int i = 0; i < rack.size(); i++) {
