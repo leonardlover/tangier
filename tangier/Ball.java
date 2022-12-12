@@ -8,6 +8,7 @@ class Ball extends JPanel {
     private int y;
     private double vx;
     private double vy;
+    private Boolean isMoving;
     private int number;
 
     public Ball(int n) {
@@ -16,6 +17,7 @@ class Ball extends JPanel {
         y = 0;
         vx = 0.0;
         vy = 0.0;
+        isMoving = false;
         number = n;
     }
 
@@ -40,6 +42,27 @@ class Ball extends JPanel {
         this.setY(y);
     }
 
+    public double getAngle() {
+        if (!isMoving) {
+            return 0.0;
+        }
+
+        return Math.atan2(vy, vx);
+    }
+
+    public double getSpeed() {
+        return Math.hypot(vx, vy);
+    }
+
+    public void setSpeed(double s) {
+        double speed = this.getSpeed();
+        double newVX = s * vx / speed;
+        double newVY = s * vy / speed;
+
+        this.setVX(newVX);
+        this.setVY(newVY);
+    }
+
     public double getVX() {
         return vx;
     }
@@ -62,7 +85,20 @@ class Ball extends JPanel {
     }
 
     public Boolean isMoving() {
-        return (vx == 0.0 && vy == 0.0);
+        return isMoving;
+    }
+
+    public void setMoving(double speed, double angle) {
+        this.setVX(Math.cos(angle));
+        this.setVY(Math.sin(angle));
+        this.setSpeed(speed);
+        isMoving = true;
+    }
+
+    public void unsetMoving() {
+        this.setVX(0.0);
+        this.setVY(0.0);
+        isMoving = false;
     }
 
     public int getNumber() {

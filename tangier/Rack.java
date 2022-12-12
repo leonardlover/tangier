@@ -37,6 +37,107 @@ class Rack extends JPanel {
         rack.get(2).setPos(600 + 4 * dx, 400 + 2 * dy);
     }
 
+    public Ball getCueBall() {
+        return rack.get(0);
+    }
+
+    public void hitWithCue(Cue cue) {
+        Ball cueball = this.getCueBall();
+
+        if (!cueball.isMoving()) {
+            double angle = cue.getAngle();
+            cueball.setMoving(10, angle);
+        }
+    }
+
+    public void move(int ticks, Player p, Player q) {
+        if (ticks >= 120) {
+            for (int i = 0; i < rack.size(); i++) {
+                rack.get(i).unsetMoving();
+            }
+        }
+        else {
+            for (int i = 0; i < rack.size(); i++) {
+                Ball b = rack.get(i);
+
+                double dx = b.getX() - b.getVX();
+                double dy = b.getY() - b.getVY();
+
+                if (dx >= 100 && dx <= 870) {
+                    b.setX((int) dx);
+                }
+                else {
+                    b.setVX(-b.getVX());
+                }
+
+                if (dy >= 100 && dy <= 670) {
+                    b.setY((int) dy);
+                }
+                else {
+                    b.setVY(-b.getVY());
+                }
+
+                for (int j = 0; j < rack.size(); j++) {
+                    if (i == j) {
+                        continue;
+                    }
+
+                    Ball c = rack.get(j);
+                    int delx = b.getX() - c.getX();
+                    int dely = b.getY() - c.getY();
+
+                    if (Math.hypot(delx, dely) <= 30) {
+                        double speed1 = b.getSpeed();
+                        double speed2 = c.getSpeed();
+
+                        double angle = Math.atan2(dely, delx);
+                        double angle1 = b.getAngle();
+                        double angle2 = c.getAngle();
+
+                        b.setMoving(1, angle1);
+                        c.setMoving(1, angle2);
+
+                        b.setVX(speed2 * Math.cos(angle2 - angle) * Math.cos(angle) +
+                                speed1 * Math.sin(angle1 - angle) * Math.cos(angle + Math.PI / 2));
+
+                        b.setVY(speed2 * Math.cos(angle2 - angle) * Math.sin(angle) +
+                                speed1 * Math.sin(angle1 - angle) * Math.sin(angle + Math.PI / 2));
+
+                        c.setVX(speed1 * Math.cos(angle1 - angle) * Math.cos(angle) +
+                                speed2 * Math.sin(angle2 - angle) * Math.cos(angle + Math.PI / 2));
+
+                        c.setVY(speed1 * Math.cos(angle1 - angle) * Math.sin(angle) +
+                                speed2 * Math.sin(angle2 - angle) * Math.sin(angle + Math.PI / 2));
+                    }
+                }
+
+                int n = b.getNumber();
+
+                if (n != 0 && n != 8) {
+                    int xc = b.getX() + 15;
+                    int yc = b.getY() + 15;
+
+                    if (Math.hypot(xc - 100, yc - 100) <= 25 ||
+                        Math.hypot(xc - 500, yc - 100) <= 25 ||
+                        Math.hypot(xc - 900, yc - 100) <= 25 ||
+                        Math.hypot(xc - 100, yc - 700) <= 25 ||
+                        Math.hypot(xc - 500, yc - 700) <= 25 ||
+                        Math.hypot(xc - 900, yc - 700) <= 25) {
+                        b.unsetMoving();
+
+                        if (n < 8) {
+                            p.pocketBall(b);
+                        }
+                        else {
+
+                            q.pocketBall(b);
+                        }
+                    }
+                }
+            }
+        }
+    }
+
     public void paintComponent(Graphics g) {
         for (int i = 0; i < rack.size(); i++) {
             rack.get(i).paintComponent(g);

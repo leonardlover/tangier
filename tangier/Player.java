@@ -1,16 +1,36 @@
 package tangier;
-import java.awt.Graphics;
-import java.awt.event.*;
+
+import java.awt.*;
+import java.util.*;
 import javax.swing.JPanel;
 
 class Player extends JPanel {
-    public Cue cue;
+    private Cue cue;
+    private ArrayList<Ball> balls;
 
     public Player() {
         super();
-        this.cue = new Cue();
+        cue = new Cue();
+        balls = new ArrayList<Ball>();
     }
 
-    public void paintComponent(Graphics g) {
+    public Cue getCue() {
+        return cue;
+    }
+
+    public void pocketBall(Ball b) {
+        int n = b.getNumber();
+        b.setPos((n < 9) ? 20 : 945, 135 + 70 * (n % 8));
+        balls.add(b);
+    }
+
+    public void paintComponent(Graphics g, Ball cueball, int mx, int my, Boolean turn) {
+        for (int i = 0; i < balls.size(); i++) {
+            balls.get(i).paintComponent(g);
+        }
+
+        if (turn) {
+            cue.paintComponent(g, cueball, mx, my);
+        }
     }
 }

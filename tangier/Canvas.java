@@ -1,14 +1,7 @@
 package tangier;
-import java.awt.Color;
-import java.awt.Graphics;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
-import java.awt.event.MouseMotionListener;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Random;
+
+import java.awt.*;
+import java.awt.event.*;
 
 import javax.swing.JPanel;
 import javax.swing.Timer;
@@ -16,6 +9,11 @@ import javax.swing.Timer;
 class Canvas extends JPanel implements MouseMotionListener, MouseListener, ActionListener {
     private Table table;
     private Rack rack;
+    private Ball cueball;
+    private Player player1;
+    private Player player2;
+    private int turn;
+    private int ticks;
     private int mx;
     private int my;
 
@@ -23,8 +21,16 @@ class Canvas extends JPanel implements MouseMotionListener, MouseListener, Actio
         super();
         this.addMouseMotionListener(this);
         this.addMouseListener(this);
-        this.table = new Table();
-        this.rack = new Rack();
+
+        table = new Table();
+        rack = new Rack();
+        cueball = rack.getCueBall();
+        player1 = new Player();
+        player2 = new Player();
+
+        turn = 0;
+        ticks = 0;
+
         mx = 0;
         my = 0;
 
@@ -36,17 +42,33 @@ class Canvas extends JPanel implements MouseMotionListener, MouseListener, Actio
     }
 
     public void mouseMoved(MouseEvent me) {
+        mx = me.getX();
+        my = me.getY();
     }
 
     public void mouseDragged(MouseEvent me) {
     }
 
     public void mouseClicked(MouseEvent me) {
+        if (turn == 0) {
+            turn = 1;
+        }
+        else if (!cueball.isMoving()) {
+            if (turn == 1) {
+                rack.hitWithCue(player1.getCue());
+                ticks = 0;
+                turn = 2;
+            }
+            else if (turn == 2) {
+                rack.hitWithCue(player2.getCue());
+                ticks = 0;
+                turn = 1;
+            }
+        }
     }
 
     public void mousePressed(MouseEvent me) {
     }
-
 
     public void mouseReleased(MouseEvent me) {
     }
@@ -58,11 +80,23 @@ class Canvas extends JPanel implements MouseMotionListener, MouseListener, Actio
     }
 
     public void actionPerformed(ActionEvent ae) {
+        rack.move(ticks, player1, player2);
+        ticks++;
+        this.repaint();
     }
 
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
         table.paintComponent(g);
         rack.paintComponent(g);
+        player1.paintComponent(g, cueball, mx, my, (turn == 1));
+        player2.paintComponent(g, cueball, mx, my, (turn == 2));
+
+        if (turn == 0) {
+            g.drawString("Click to begin", 450, 30);
+        }
+        else {
+            g.drawString("Turn: Player " + turn, 450, 30);
+        }
     }
 }
